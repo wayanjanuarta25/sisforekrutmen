@@ -12,6 +12,11 @@ class Personel extends Model
     protected $fillable = [
     'nama', 'jenis_kelamin', 'agama', 'ttl', 'tempat_lahir',
     'alamat_ktp', 'nomor_hp', 'email', 'prodi', 'asal_panda',
-    'nomor_tk_panda', 'nomor_tk_pusat', 'nomor_imei', 'merk_hp', 'status'
+    'nomor_tk_panda', 'nomor_tk_pusat', 'nomor_imei', 'merk_hp', 'status',
+    'media_files' // Tambahkan field media_files untuk menyimpan path file
     ];
+    protected $casts = [
+        'media_files' => 'array',
+    ];
+
 }

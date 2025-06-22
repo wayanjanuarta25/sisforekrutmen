@@ -286,7 +286,7 @@
 
 
                 {{-- Form ini akan muncul ketika tombol "Tambah Personel" ditekan --}}
-                <form id="formPendaftaran" class="hidden" action="{{ route('personel.create') }}" method="POST">
+                <form id="formPendaftaran" class="hidden" action="{{ route('personel.create') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <!-- Nama Lengkap -->
@@ -438,34 +438,18 @@
                     </div>
                     <div>
                         <label>Upload Gambar/Video</label>
-
-
-                        <div class="mb-2 d-flex align-items-start gap-2">
-                            <input type="file" wire:model="media_files" class="form-control"
-                                accept="image/*,video/*">
-
-                            <button type="button" class="btn btn-danger btn-sm" wire:click="removeFileInput()">
-                                Hapus File
-                            </button>
-                            <button type="button" wire:click="addFileInput" class="btn btn-primary btn-sm ">
-                                + Tambah File
-                            </button>
+                        <div class="mb-2 d-flex align-items-start gap-2" id="file-inputs">
+                            <div class="file-input">
+                                <input type="file" name="media_files[]" class="form-control"
+                                    accept="image/*,video/*">
+                            </div>
                         </div>
 
-                        {{-- @if (!empty($media_files[$i]))
-                @php $file = $media_files[$i]; @endphp
-                <div class="mb-2">
-                    @if (str_starts_with($file->getMimeType(), 'image/'))
-                        <img src="{{ $file->temporaryUrl() }}" class="img-thumbnail" style="max-height: 150px;">
-                    @elseif (str_starts_with($file->getMimeType(), 'video/'))
-                        <video src="{{ $file->temporaryUrl() }}" class="w-100" style="max-height: 200px;" controls></video>
-                    @endif
-                </div>
-            @endif --}}
-
-
-
+                        <!-- Tombol untuk menambah input file -->
+                        <button type="button" id="add-file" class="btn btn-primary btn-sm form-label">Tambah
+                            File</button>
                     </div>
+
 
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
@@ -477,24 +461,55 @@
                 const buttonPendaftaran = document.getElementById('togglePendaftaran');
 
                 function togglePersonel() {
-
-
                     const isHidden = formPendaftaran.classList.contains('hidden');
                     if (isHidden) {
-
-
                         formPendaftaran.classList.remove('hidden');
                         tablePersonel.classList.add('hidden');
-
                     } else {
-
-
                         formPendaftaran.classList.add('hidden');
                         tablePersonel.classList.remove('hidden');
                     };
-
-
                 }
+            </script>
+
+            <script>
+                // Tangkap tombol tambah input file
+                document.getElementById('add-file').addEventListener('click', function() {
+                    // Ambil container yang berisi input file
+                    var container = document.getElementById('file-inputs');
+
+                    // Buat elemen div baru untuk membungkus input file
+                    var div = document.createElement('div');
+                    div.className = "file-input";
+                    div.classList.add('mb-2', 'd-flex', 'align-items-start', 'gap-2');
+
+                    // Buat label dan input file baru
+                    // var label = document.createElement('label');
+                    // label.innerText = "Pilih Gambar/Video:";
+                    var input = document.createElement('input');
+                    input.className = "form-control";
+                    input.type = "file";
+                    input.name = "media_files[]";
+                    input.accept = "image/*,video/*";
+
+                    // Buat tombol hapus untuk input file
+                    var removeButton = document.createElement('button');
+                    removeButton.type = "button";
+                    removeButton.innerText = "Hapus";
+                    removeButton.className = "remove-file";
+                    removeButton.classList.add('btn', 'btn-warning', 'btn-sm');
+                    // Tambahkan event listener: saat tombol diklik, hapus div induknya
+                    removeButton.addEventListener('click', function() {
+                        this.parentElement.remove();
+                    });
+
+                    // Tambahkan label ke dalam div
+                    div.appendChild(input);
+                    div.appendChild(removeButton);
+
+                    // Tambahkan div baru ke container
+                    container.appendChild(div);
+                });
             </script>
 
 

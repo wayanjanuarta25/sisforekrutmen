@@ -23,57 +23,64 @@ class PersonelController extends Controller
             'data' => $personel
         ]);
     }
-    public $media_files = [];
-    public $media_inputs = [0];
-
 
     public function create(Request $request)
     {
-        //dd($request);
 
         $rules = [
-            'media_files.*' => 'file|mimes:jpg,jpeg,png,mp4,mov|max:10240',
+            'media_files'    => 'nullable',
+            'media_files.*'  => 'file|mimes:jpg,jpeg,png,mp4,mov|max:10240',
+            'nama'           => 'required|string|max:255',
+            'jenis_kelamin'  => 'required|in:Laki-laki,Perempuan',
+            'agama'          => 'required|string|max:50',
+            'ttl'            => 'required|date',
+            'tempat_lahir'   => 'required|string|max:100',
+            'alamat_ktp'     => 'required|string|max:255',
+            'nomor_hp'       => 'required|string|max:20',
+            'email'          => 'required|email|max:255',
+            'prodi'          => 'required|string|max:100',
+            'asal_panda'     => 'required|string|max:100',
+            'nomor_tk_panda' => 'required|string|max:50',
+            'nomor_tk_pusat' => 'required|string|max:50',
+            'nomor_imei'     => 'required|string|max:50',
+            'merk_hp'        => 'required|string|max:50',
+            'status'         => 'required|string|max:50',
             // tambahkan validasi field lain di sini...
         ];
+
         $validated = $request->validate($rules);
         $filePaths = [];
-
-        foreach ($validated['media_files'] as $file) {
-            $path = $file->store('uploads/personel', 'public');
-            $filePaths[] = $path;
+        if (isset($validated['media_files'])) {
+            foreach ($validated['media_files'] as $file) {
+                $path = $file->store('uploads/personel', 'public');
+                $filePaths[] = $path;
+            }
         }
 
+
         $personel = Personel::create([
-            'nama' => $request->nama,
+            'nama'          => $request->nama,
             'jenis_kelamin' => $request->jenis_kelamin,
-            'agama' => $request->agama,
-            'ttl' => $request->ttl,
-            'tempat_lahir' => $request->tempat_lahir,
-            'alamat_ktp' => $request->alamat_ktp,
-            'nomor_hp' => $request->nomor_hp,
-            'email' => $request->email,
-            'prodi' => $request->prodi,
-            'asal_panda' => $request->asal_panda,
+            'agama'         => $request->agama,
+            'ttl'           => $request->ttl,
+            'tempat_lahir'  => $request->tempat_lahir,
+            'alamat_ktp'    => $request->alamat_ktp,
+            'nomor_hp'      => $request->nomor_hp,
+            'email'         => $request->email,
+            'prodi'         => $request->prodi,
+            'asal_panda'    => $request->asal_panda,
             'nomor_tk_panda' => $request->nomor_tk_panda,
             'nomor_tk_pusat' => $request->nomor_tk_pusat,
-            'nomor_imei' => $request->nomor_imei,
-            'merk_hp' => $request->merk_hp,
-            'status' => $request->status,
-            'media_files' => json_encode($filePaths),
+            'nomor_imei'    => $request->nomor_imei,
+            'merk_hp'       => $request->merk_hp,
+            'status'        => $request->status,
+            'media_files'   => json_encode($filePaths),
         ]);
+
         return redirect()->route('werving.index')->with('success', 'Personel berhasil ditambahkan!');
     }
 
-    public function addMediaInput()
-    {
-        $this->media_inputs[] = count($this->media_inputs);
-    }
 
-    public function removeMediaInput($index)
-    {
-        unset($this->media_files[$index]);
-        unset($this->media_inputs[$index]);
-    }
 
 
 
