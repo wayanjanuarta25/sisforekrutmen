@@ -24,6 +24,9 @@ Route::get('/', function () {
     // Jika belum login, arahkan ke halaman login
     return redirect()->route('login');
 });
+Route::get('/register', function () {
+    return view('register');
+});
 Route::get('/personel', [PersonelController::class,'index'])->name('index-personel');
 Route::middleware(['auth'])->group(function () {
     // Rute untuk Dashboard

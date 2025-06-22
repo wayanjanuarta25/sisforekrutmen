@@ -27,6 +27,7 @@
 </head>
 
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
+
     <div class="loader-bg">
         <div class="loader-track">
             <div class="loader-fill"></div>
@@ -195,7 +196,8 @@
                     <div class="col-md-12">
                         <div class="page-header-title d-flex align-items-center justify-content-between">
                             <h5 class="m-b-10">Daftar Personel</h5>
-                            <button class="btn btn-primary btn-sm" id="togglePendaftaran" class="togglePendaftaran" onclick="togglePersonel()">
+                            <button class="btn btn-primary btn-sm" id="togglePendaftaran" class="togglePendaftaran"
+                                onclick="togglePersonel()">
                                 {{-- Tombol untuk toggle form pendaftaran --}}
                                 {{-- LINK KE FORM TAMBAH EVENT REKRUTMEN --}}
                                 + tambah Personel
@@ -282,6 +284,8 @@
                     });
                 </script>
 
+
+                {{-- Form ini akan muncul ketika tombol "Tambah Personel" ditekan --}}
                 <form id="formPendaftaran" class="hidden" action="{{ route('personel.create') }}" method="POST">
                     @csrf
                     <div class="row">
@@ -432,40 +436,67 @@
                             @enderror
                         </div>
                     </div>
+                    <div>
+                        <label>Upload Gambar/Video</label>
+
+
+                        <div class="mb-2 d-flex align-items-start gap-2">
+                            <input type="file" wire:model="media_files" class="form-control"
+                                accept="image/*,video/*">
+
+                            <button type="button" class="btn btn-danger btn-sm" wire:click="removeFileInput()">
+                                Hapus File
+                            </button>
+                            <button type="button" wire:click="addFileInput" class="btn btn-primary btn-sm ">
+                                + Tambah File
+                            </button>
+                        </div>
+
+                        {{-- @if (!empty($media_files[$i]))
+                @php $file = $media_files[$i]; @endphp
+                <div class="mb-2">
+                    @if (str_starts_with($file->getMimeType(), 'image/'))
+                        <img src="{{ $file->temporaryUrl() }}" class="img-thumbnail" style="max-height: 150px;">
+                    @elseif (str_starts_with($file->getMimeType(), 'video/'))
+                        <video src="{{ $file->temporaryUrl() }}" class="w-100" style="max-height: 200px;" controls></video>
+                    @endif
+                </div>
+            @endif --}}
+
+
+
+                    </div>
 
                     <button type="submit" class="btn btn-success">Simpan</button>
                 </form>
             </div>
-           
-                <script>
-                    const formPendaftaran = document.getElementById('formPendaftaran');
-                    const tablePersonel = document.getElementById('tablePersonel');
-                        const buttonPendaftaran = document.getElementById('togglePendaftaran');
-                    function togglePersonel(){
-                            
-                       
-                            const isHidden = formPendaftaran.classList.contains('hidden');
-                            if (isHidden) {
-                                console.log("cok");
-                                
-                                formPendaftaran.classList.remove('hidden');
-                                tablePersonel.classList.add('hidden');
 
-                            } else {
-                                console.log("cok2");
-                                
-                                formPendaftaran.classList.add('hidden');
-                                tablePersonel.classList.remove('hidden');
-                            };
+            <script>
+                const formPendaftaran = document.getElementById('formPendaftaran');
+                const tablePersonel = document.getElementById('tablePersonel');
+                const buttonPendaftaran = document.getElementById('togglePendaftaran');
+
+                function togglePersonel() {
 
 
-                    }
-                    // document.addEventListener('DOMContentLoaded', function() {
-                    //     console.log('hmm');
-                        
-                                        // });
-                </script>
-            
+                    const isHidden = formPendaftaran.classList.contains('hidden');
+                    if (isHidden) {
+
+
+                        formPendaftaran.classList.remove('hidden');
+                        tablePersonel.classList.add('hidden');
+
+                    } else {
+
+
+                        formPendaftaran.classList.add('hidden');
+                        tablePersonel.classList.remove('hidden');
+                    };
+
+
+                }
+            </script>
+
 
         </div>
     </div>
