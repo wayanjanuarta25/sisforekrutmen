@@ -49,14 +49,14 @@
                         <label>Data Master</label>
                         <i class="ti ti-dashboard"></i>
                     </li>
-                    <li class="pc-item active"> {{-- Menandai menu aktif --}}
-                        <a href="{{ route('rekrutmen-event.index') }}" class="pc-link"> {{-- LINK KE DAFTAR EVENT REKRUTMEN --}}
-                            <span class="pc-micon"><i class="ti ti-calendar-event"></i></span>
+                    <li class="pc-item active">
+                        <a href="{{ route('rekrutmen-event.index') }}" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-users"></i></span>
                             <span class="pc-mtext">Rekrutmen</span>
                         </a>
                     </li>
                     <li class="pc-item">
-                        <a href="#" class="pc-link">
+                        <a href="{{ route('werving.index') }}" class="pc-link">
                             <span class="pc-micon"><i class="ti ti-report-analytics"></i></span>
                             <span class="pc-mtext">Werving</span>
                         </a>

@@ -52,8 +52,8 @@
                     </li>
                     <li class="pc-item">
                         <a href="{{ route('rekrutmen-event.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-calendar-event"></i></span> {{-- Icon untuk event --}}
-                            <span class="pc-mtext">Event Rekrutmen</span>
+                            <span class="pc-micon"><i class="ti ti-users"></i></span>
+                            <span class="pc-mtext">Rekrutmen</span>
                         </a>
                     </li>
                     <li class="pc-item active"> {{-- Menandai menu aktif --}}
@@ -147,7 +147,8 @@
                                         @csrf
                                         <a href="{{ route('logout') }}" class="pc-head-link bg-transparent"
                                             onclick="event.preventDefault(); this.closest('form').submit();">
-                                            <i class="ti ti-power text-danger"></i>
+                                            <i class="ti ti-power"></i>
+                                            <span>Logout</span>
                                         </a>
                                     </form>
                                 </div>
@@ -197,10 +198,13 @@
                 </div>
             </div>
             <div class="row">
+                {{-- Card "Taruna Akmil" ini masih statis. Jika Anda ingin ini dinamis berdasarkan event rekrutmen,
+                    kita perlu pass data event dari WervingController dan loop di sini.
+                    Untuk saat ini biarkan statis jika Anda tidak ingin dinamis. --}}
                 <div class="col-md-6 col-xl-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Taruna Akmil</h4> {{-- Ini bisa jadi judul event rekrutmen --}}
+                            <h4>Taruna Akmil</h4>
                         </div>
                         <div class="card-body">
                             {{-- Link ini perlu disesuaikan dengan rute laporan perorangan/rekapitulasi --}}
@@ -209,8 +213,8 @@
                         </div>
                         <div class="card-footer">
                             <p>
-                                <i class="ti ti-calendar-time"></i> 22 Juni 2024 <br> {{-- Tanggal Event --}}
-                                <i class="ti ti-location"></i> Magelang, Jawa Tengah {{-- Lokasi Event --}}
+                                <i class="ti ti-calendar-time"></i> 22 Juni 2024 <br>
+                                <i class="ti ti-location"></i> Magelang, Jawa Tengah
                             </p>
                         </div>
                     </div>
@@ -233,97 +237,101 @@
                                 </div>
                             @endif
 
-                            <div class="dt-responsive">
-                                <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap5">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_length" id="dom-jqry_length">
-                                                <label>Show
-                                                    <select name="dom-jqry_length" aria-controls="dom-jqry"
-                                                        class="form-select form-select-sm">
-                                                        <option value="10">10</option>
-                                                        <option value="25">25</option>
-                                                        <option value="50">50</option>
-                                                        <option value="100">100</option>
-                                                    </select>
-                                                    entries
-                                                </label>
+                            {{-- START REVISI: Tambahkan div dengan class table-responsive di sini --}}
+                            <div class="table-responsive">
+                                <div class="dt-responsive">
+                                    <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap5">
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_length" id="dom-jqry_length">
+                                                    <label>Show
+                                                        <select name="dom-jqry_length" aria-controls="dom-jqry"
+                                                            class="form-select form-select-sm">
+                                                            <option value="10">10</option>
+                                                            <option value="25">25</option>
+                                                            <option value="50">50</option>
+                                                            <option value="100">100</option>
+                                                        </select>
+                                                        entries
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6">
+                                                <div id="dom-jqry_filter"
+                                                    class="dataTables_filter d-flex align-items-center justify-content-end gap-2">
+                                                    <label class="mb-0 me-2" for="searchInput">Search:</label>
+                                                    <input id="searchInput" type="search"
+                                                        class="form-control form-control-sm" placeholder=""
+                                                        aria-controls="dom-jqry">
+                                                    {{-- Tombol Tambah Laporan (GLOBAL) --}}
+                                                    <a href="{{ route('werving.create_laporan') }}" class="btn btn-sm btn-primary">
+                                                        + tambah laporan
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div id="dom-jqry_filter"
-                                                class="dataTables_filter d-flex align-items-center justify-content-end gap-2">
-                                                <label class="mb-0 me-2" for="searchInput">Search:</label>
-                                                <input id="searchInput" type="search"
-                                                    class="form-control form-control-sm" placeholder=""
-                                                    aria-controls="dom-jqry">
-                                                <a href="#" class="btn btn-sm btn-primary"> {{-- Ubah ini jika ada rute tambah laporan perorangan --}}
-                                                    + tambah laporan
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row dt-row">
-                                        <div class="col-sm-12">
-                                            <table id="dom-jqry"
-                                                class="table table-striped table-bordered nowrap dataTable"
-                                                aria-describedby="dom-jqry_info">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="sorting sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending">No</th>
-                                                        <th class="sorting" tabindex="0" rowspan="1" colspan="1">Nama</th>
-                                                        <th class="sorting" tabindex="0" rowspan="1" colspan="1">Jenis Rekrutmen</th>
-                                                        <th class="sorting" tabindex="0" rowspan="1" colspan="1">Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @forelse ($pesertaWerving as $peserta)
-                                                        <tr class="odd">
-                                                            <td class="sorting_1">{{ $loop->iteration }}</td>
-                                                            <td>{{ $peserta->nama_lengkap }}</td>
-                                                            {{-- Asumsi Anda memiliki relasi 'rekrutmenEvent' di model CalonTaruna --}}
-                                                            {{-- Jika tidak, Anda perlu menambahkan foreign key rekrutmen_event_id ke tabel calon_taruna --}}
-                                                            {{-- dan mendefinisikan relasi belongsTo di model CalonTaruna --}}
-                                                            <td>{{ $peserta->rekrutmenEvent->nama_rekrutmen ?? 'N/A' }}</td>
-                                                            <td>
-                                                                {{-- Link Detail Laporan Perorangan --}}
-                                                                <a href="#" class="btn btn-info btn-sm">detail</a> {{-- Ganti dengan route detail laporan perorangan --}}
-                                                                {{-- Tambahan aksi seperti Edit Profiling, Edit Forensik --}}
-                                                                <a href="#" class="btn btn-warning btn-sm">Edit Profiling</a>
-                                                                <a href="#" class="btn btn-dark btn-sm">Edit Forensik</a>
-                                                            </td>
-                                                        </tr>
-                                                    @empty
+                                        <div class="row dt-row">
+                                            <div class="col-sm-12">
+                                                <table id="dom-jqry"
+                                                    class="table table-striped table-bordered nowrap dataTable"
+                                                    aria-describedby="dom-jqry_info">
+                                                    <thead>
                                                         <tr>
-                                                            <td colspan="4" class="text-center">Tidak ada data peserta werving.</td>
+                                                            <th class="sorting sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending">No</th>
+                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Nama Casis</th>
+                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">No. Pendaftaran</th>
+                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Asal Sekolah</th>
+                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Event Rekrutmen</th>
+                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Aksi</th>
                                                         </tr>
-                                                    @endforelse
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th rowspan="1" colspan="1">No</th>
-                                                        <th rowspan="1" colspan="1">Nama</th>
-                                                        <th rowspan="1" colspan="1">Jenis Rekrutmen</th>
-                                                        <th rowspan="1" colspan="1">Aksi</th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        {{-- Loop data laporan perorangan di sini --}}
+                                                        @forelse ($laporanPerorangans as $laporan)
+                                                            <tr class="odd">
+                                                                <td class="sorting_1">{{ $loop->iteration }}</td>
+                                                                <td>{{ $laporan->nama_lengkap }}</td>
+                                                                <td>{{ $laporan->nomor_pendaftaran }}</td>
+                                                                <td>{{ $laporan->asal_sekolah }}</td>
+                                                                <td>{{ $laporan->rekrutmenEvent->nama_rekrutmen ?? 'N/A' }}</td>
+                                                                <td>
+                                                                    {{-- Link Detail Laporan Perorangan (jika ada) --}}
+                                                                    <a href="#" class="btn btn-info btn-sm">detail</a>
+                                                                    {{-- Tombol Edit Laporan Perorangan --}}
+                                                                    <a href="#" class="btn btn-warning btn-sm">Edit Laporan</a>
+                                                                    {{-- Tombol Hapus Laporan Perorangan --}}
+                                                                    <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                                                    </form>
+                                                                </td>
+                                                            </tr>
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="6" class="text-center">Tidak ada data laporan perorangan.</td>
+                                                            </tr>
+                                                        @endforelse
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-12 col-md-5">
-                                            <div class="dataTables_info" id="dom-jqry_info" role="status"
-                                                aria-live="polite">Showing {{ $pesertaWerving->firstItem() }} to {{ $pesertaWerving->lastItem() }} of {{ $pesertaWerving->total() }} entries</div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-7">
-                                            <div class="dataTables_paginate paging_simple_numbers"
-                                                id="dom-jqry_paginate">
-                                                {{ $pesertaWerving->links('pagination::bootstrap-5') }} {{-- Menggunakan pagination Laravel --}}
+                                        <div class="row">
+                                            <div class="col-sm-12 col-md-5">
+                                                <div class="dataTables_info" id="dom-jqry_info" role="status"
+                                                    aria-live="polite">Showing {{ $laporanPerorangans->firstItem() ?? 0 }} to {{ $laporanPerorangans->lastItem() ?? 0 }} of {{ $laporanPerorangans->total() ?? 0 }} entries</div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-7">
+                                                <div class="dataTables_paginate paging_simple_numbers"
+                                                    id="dom-jqry_paginate">
+                                                    {{ $laporanPerorangans->links('pagination::bootstrap-5') }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {{-- END REVISI --}}
                         </div>
                     </div>
                 </div>
@@ -334,25 +342,24 @@
         <div class="footer-wrapper container-fluid">
             <div class="row">
                 <div class="col-sm my-1">
-                    <p class="m-0">Copyright © <a href="#" class="text-white">Satsiber TNI 2025</a></p>
+                    <p class="m-0">Copyright © <a href="#">Satsiber TNI 2025</a></p>
                 </div>
             </div>
-        </div>
-    </footer>
+        </footer>
 
+    <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/data-basic-init.js') }}"></script>
+    {{-- Anda mungkin perlu mengaktifkan script ini jika Anda memiliki fitur Chart/Dashboard di halaman ini --}}
     {{-- <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script> --}}
+
     <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/fonts/custom-font.js') }}"></script>
     <script src="{{ asset('assets/js/pcoded.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
-
-    <script src="{{ asset('assets/js/plugins/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/data-basic-init.js') }}"></script> {{-- Asumsi ini menginisialisasi DataTables --}}
-
 
     <script>layout_change('light');</script>
     <script>change_box_container('false');</script>

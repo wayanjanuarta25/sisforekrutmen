@@ -30,6 +30,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('rekrutmen-event', RekrutmenEventController::class);
 
      Route::get('werving', [WervingController::class, 'index'])->name('werving.index');
+     Route::get('werving/create-laporan', [WervingController::class, 'createLaporan'])->name('werving.create_laporan');
+     Route::post('werving/store-laporan', [WervingController::class, 'storeLaporan'])->name('werving.store_laporan');
 
     // Rute Profil pengguna Laravel Breeze
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

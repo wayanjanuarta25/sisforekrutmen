@@ -24,56 +24,18 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}">
 
     <style>
-        /* Sembunyikan semua langkah form secara default */
-        .form-step {
-            display: none;
-        }
-
-        /* Tampilkan langkah pertama secara default */
-        .form-step.active {
-            display: block;
-        }
-
-        /* Styles for progress indicator */
-        .progress-indicator {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-            padding: 0 20px;
-        }
-
-        .progress-step {
-            flex-grow: 1;
-            text-align: center;
-            padding: 10px;
-            border-bottom: 2px solid #ccc;
-            color: #ccc;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .progress-step.active {
-            border-color: #007bff;
-            color: #007bff;
-        }
-
-        .progress-step.completed {
-            border-color: #28a745;
-            color: #28a745;
-        }
-
-        .progress-step:not(:last-child) {
-            margin-right: 10px;
-        }
+        .form-step { display: none; }
+        .form-step.active { display: block; }
+        .progress-indicator { display: flex; justify-content: space-between; margin-bottom: 20px; padding: 0 20px; }
+        .progress-step { flex-grow: 1; text-align: center; padding: 10px; border-bottom: 2px solid #ccc; color: #ccc; font-weight: bold; cursor: pointer; }
+        .progress-step.active { border-color: #007bff; color: #007bff; }
+        .progress-step.completed { border-color: #28a745; color: #28a745; }
+        .progress-step:not(:last-child) { margin-right: 10px; }
     </style>
 </head>
 
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
-    <div class="loader-bg">
-        <div class="loader-track">
-            <div class="loader-fill"></div>
-        </div>
-    </div>
+    <div class="loader-bg"><div class="loader-track"><div class="loader-fill"></div></div></div>
     <nav class="pc-sidebar">
         <div class="navbar-wrapper">
             <div class="m-header">
@@ -83,77 +45,25 @@
             </div>
             <div class="navbar-content">
                 <ul class="pc-navbar">
-                    <li class="pc-item">
-                        <a href="{{ route('dashboard') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
-                            <span class="pc-mtext">Dashboard</span>
-                        </a>
-                    </li>
-
-                    <li class="pc-item pc-caption">
-                        <label>Data Master</label>
-                        <i class="ti ti-dashboard"></i>
-                    </li>
-                    <li class="pc-item">
-                        <a href="{{ route('rekrutmen-event.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-calendar-event"></i></span>
-                            <span class="pc-mtext">Event Rekrutmen</span>
-                        </a>
-                    </li>
-                    <li class="pc-item active">
-                        <a href="{{ route('werving.index') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-report-analytics"></i></span>
-                            <span class="pc-mtext">Werving</span>
-                        </a>
-                    </li>
-
-                    <li class="pc-item pc-caption">
-                        <label>Report</label>
-                        <i class="ti ti-news"></i>
-                    </li>
-                    <li class="pc-item">
-                        <a href="#" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-file"></i></span>
-                            <span class="pc-mtext">Perorangan</span>
-                        </a>
-                    </li>
-                    <li class="pc-item">
-                        <a href="#" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-file-horizontal"></i></span>
-                            <span class="pc-mtext">Rekapitulasi</span>
-                        </a>
-                    </li>
-
+                    <li class="pc-item"><a href="{{ route('dashboard') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-dashboard"></i></span><span class="pc-mtext">Dashboard</span></a></li>
+                    <li class="pc-item pc-caption"><label>Data Master</label><i class="ti ti-dashboard"></i></li>
+                    <li class="pc-item"><a href="{{ route('rekrutmen-event.index') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-calendar-event"></i></span><span class="pc-mtext">Event Rekrutmen</span></a></li>
+                    <li class="pc-item active"><a href="{{ route('werving.index') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-report-analytics"></i></span><span class="pc-mtext">Werving</span></a></li>
+                    <li class="pc-item pc-caption"><label>Report</label><i class="ti ti-news"></i></li>
+                    <li class="pc-item"><a href="#" class="pc-link"><span class="pc-micon"><i class="ti ti-file"></i></span><span class="pc-mtext">Perorangan</span></a></li>
+                    <li class="pc-item"><a href="#" class="pc-link"><span class="pc-micon"><i class="ti ti-file-horizontal"></i></span><span class="pc-mtext">Rekapitulasi</span></a></li>
                     @if (Auth::check() && Auth::user()->role === 'superadmin')
-                    <li class="pc-item pc-caption">
-                        <label>Pengaturan Superadmin</label>
-                        <i class="ti ti-settings"></i>
-                    </li>
-                    <li class="pc-item">
-                        <a href="{{ route('superadmin.settings') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-crown"></i></span>
-                            <span class="pc-mtext">Pengaturan Sistem</span>
-                        </a>
-                    </li>
+                    <li class="pc-item pc-caption"><label>Pengaturan Superadmin</label><i class="ti ti-settings"></i></li>
+                    <li class="pc-item"><a href="{{ route('superadmin.settings') }}" class="pc-link"><span class="pc-micon"><i class="ti ti-crown"></i></span><span class="pc-mtext">Pengaturan Sistem</span></a></li>
                     @endif
-
                 </ul>
             </div>
         </div>
     </nav>
     <header class="pc-header">
         <div class="header-wrapper">
-            <div class="me-auto pc-mob-drp">
-                <ul class="list-unstyled">
-                    <li class="pc-h-item pc-sidebar-collapse"><a href="#" class="pc-head-link ms-0" id="sidebar-hide"><i class="ti ti-menu-2"></i></a></li>
-                    <li class="pc-h-item pc-sidebar-popup"><a href="#" class="pc-head-link ms-0" id="mobile-collapse"><i class="ti ti-menu-2"></i></a></li>
-                    <li class="dropdown pc-h-item d-inline-flex d-md-none"><a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"></a></li>
-                </ul>
-            </div>
-            <div class="ms-auto">
-                <ul class="list-unstyled">
-                    <li class="dropdown pc-h-item"><a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"></a></li>
-                    <li class="dropdown pc-h-item header-user-profile"><a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false"><img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar"><span>{{ Auth::user()->name }}</span></a><div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown"><div class="dropdown-header"><div class="d-flex mb-1"><div class="flex-shrink-0"><img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar wid-35"></div><div class="flex-grow-1 ms-3"><h6 class="mb-1">{{ Auth::user()->name }}</h6><span>Role {{ Str::ucfirst(Auth::user()->role) }}</span></div><form method="POST" action="{{ route('logout') }}">@csrf<a href="{{ route('logout') }}" class="pc-head-link bg-transparent" onclick="event.preventDefault(); this.closest('form').submit();"><i class="ti ti-power"></i><span>Logout</span></a></form></div></div><ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1" type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i> Profile</button></li></ul><div class="tab-content" id="mysrpTabContent"><div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0"><a href="{{ route('profile.edit') }}" class="dropdown-item"><i class="ti ti-edit-circle"></i><span>Edit Profile</span></a><form method="POST" action="{{ route('logout') }}">@csrf<a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();"><i class="ti ti-power"></i><span>Logout</span></a></form></div></div></div></li></ul></div>
+            <div class="me-auto pc-mob-drp"><ul class="list-unstyled"><li class="pc-h-item pc-sidebar-collapse"><a href="#" class="pc-head-link ms-0" id="sidebar-hide"><i class="ti ti-menu-2"></i></a></li><li class="pc-h-item pc-sidebar-popup"><a href="#" class="pc-head-link ms-0" id="mobile-collapse"><i class="ti ti-menu-2"></i></a></li><li class="dropdown pc-h-item d-inline-flex d-md-none"><a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"></a></li></ul></div>
+            <div class="ms-auto"><ul class="list-unstyled"><li class="dropdown pc-h-item"><a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"></a></li><li class="dropdown pc-h-item header-user-profile"><a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false"><img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar"><span>{{ Auth::user()->name }}</span></a><div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown"><div class="dropdown-header"><div class="d-flex mb-1"><div class="flex-shrink-0"><img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar wid-35"></div><div class="flex-grow-1 ms-3"><h6 class="mb-1">{{ Auth::user()->name }}</h6><span>Role {{ Str::ucfirst(Auth::user()->role) }}</span></div><form method="POST" action="{{ route('logout') }}">@csrf<a href="{{ route('logout') }}" class="pc-head-link bg-transparent" onclick="event.preventDefault(); this.closest('form').submit();"><i class="ti ti-power"></i><span>Logout</span></a></form></div></div><ul class="nav drp-tabs nav-fill nav-tabs" id="mydrpTab" role="tablist"><li class="nav-item" role="presentation"><button class="nav-link active" id="drp-t1" data-bs-toggle="tab" data-bs-target="#drp-tab-1" type="button" role="tab" aria-controls="drp-tab-1" aria-selected="true"><i class="ti ti-user"></i> Profile</button></li></ul><div class="tab-content" id="mysrpTabContent"><div class="tab-pane fade show active" id="drp-tab-1" role="tabpanel" aria-labelledby="drp-t1" tabindex="0"><a href="{{ route('profile.edit') }}" class="dropdown-item"><i class="ti ti-edit-circle"></i><span>Edit Profile</span></a><form method="POST" action="{{ route('logout') }}">@csrf<a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();"><i class="ti ti-power"></i><span>Logout</span></a></form></div></div></div></li></ul></div>
         </div>
     </header>
     <div class="pc-container">
@@ -178,21 +88,11 @@
                 <div class="col-sm-8">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Form Input Laporan Perorangan
-                                @isset($casis) {{-- Tampilkan nama Casis jika ada (dari parameter URL) --}}
-                                    untuk Casis: <b>{{ $casis->nama_lengkap }} ({{ $casis->nomor_pendaftaran }})</b>
-                                @else {{-- Tampilkan 'Baru' jika tidak ada Casis ID di URL --}}
-                                    Baru
-                                @endisset
-                            </h5>
+                            <h5>Form Input Laporan Perorangan Baru</h5> {{-- Diubah karena tidak ada Casis terpilih --}}
                         </div>
-                        {{-- Action form akan berbeda tergantung apakah $casis ada atau tidak --}}
-                        <form id="multi-step-form" method="POST" action="{{ route('werving.store_laporan', $casis->id ?? null) }}" enctype="multipart/form-data">
+                        {{-- Action form akan selalu ke store tanpa ID di URL --}}
+                        <form id="multi-step-form" method="POST" action="{{ route('werving.store_laporan') }}" enctype="multipart/form-data">
                             @csrf
-                            {{-- Input tersembunyi untuk casis_id, hanya ada jika $casis tersedia --}}
-                            @isset($casis)
-                            <input type="hidden" name="casis_id" value="{{ $casis->id }}">
-                            @endisset
 
                             <div class="progress-indicator" id="progress-indicator">
                                 <div class="progress-step active" data-step="1"><i class="ti ti-file-text"></i></div>
@@ -206,22 +106,8 @@
                             <div class="form-step active" id="step-1">
                                 <div class="card-body">
                                     <h5>I. Biodata Casis</h5>
-                                    @if (!isset($casis)) {{-- Hanya tampilkan dropdown jika Casis belum dipilih (akses dari tombol global) --}}
-                                    <div class="form-group mb-3">
-                                        <label for="casis_id_dropdown" class="form-label">Pilih Casis</label>
-                                        <select class="form-control @error('casis_id') is-invalid @enderror" id="casis_id_dropdown" name="casis_id" required>
-                                            <option value="">-- Pilih Casis --</option>
-                                            @foreach ($allCasis as $c)
-                                                <option value="{{ $c->id }}" {{ old('casis_id') == $c->id ? 'selected' : '' }}>
-                                                    {{ $c->nama_lengkap }} ({{ $c->nomor_pendaftaran }})
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @error('casis_id') <div class="text-danger mt-1">{{ $message }}</div> @enderror
-                                    </div>
-                                    @endif
-
-                                    @if ($errors->any()) {{-- Menampilkan error validasi Laravel --}}
+                                    {{-- Pesan Error Validasi Global --}}
+                                    @if ($errors->any())
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             <ul>
                                                 @foreach ($errors->all() as $error)
@@ -232,11 +118,45 @@
                                         </div>
                                     @endif
 
+                                    {{-- Input Nomor Pendaftaran --}}
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="nomor_pendaftaran">Nomor Pendaftaran</label>
+                                        <input type="text" class="form-control @error('nomor_pendaftaran') is-invalid @enderror" id="nomor_pendaftaran" name="nomor_pendaftaran"
+                                            placeholder="Masukkan Nomor Pendaftaran" value="{{ old('nomor_pendaftaran') }}" required>
+                                        @error('nomor_pendaftaran') <div class="text-danger mt-1">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    {{-- Input Nama Lengkap --}}
                                     <div class="form-group mb-3">
                                         <label class="form-label" for="nama_lengkap">Nama Lengkap</label>
-                                        <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap_display"
-                                            placeholder="Nama Lengkap Casis" value="{{ $casis->nama_lengkap ?? '' }}" disabled> {{-- Teks ini diambil dari Casis jika ada, jika tidak kosong --}}
+                                        <input type="text" class="form-control @error('nama_lengkap') is-invalid @enderror" id="nama_lengkap" name="nama_lengkap"
+                                            placeholder="Masukkan Nama Lengkap" value="{{ old('nama_lengkap') }}" required>
+                                        @error('nama_lengkap') <div class="text-danger mt-1">{{ $message }}</div> @enderror
                                     </div>
+
+                                    {{-- Input Asal Sekolah --}}
+                                    <div class="form-group mb-3">
+                                        <label class="form-label" for="asal_sekolah">Asal Sekolah</label>
+                                        <input type="text" class="form-control @error('asal_sekolah') is-invalid @enderror" id="asal_sekolah" name="asal_sekolah"
+                                            placeholder="Masukkan Asal Sekolah" value="{{ old('asal_sekolah') }}" required>
+                                        @error('asal_sekolah') <div class="text-danger mt-1">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    {{-- Dropdown Event Rekrutmen --}}
+                                    <div class="form-group mb-3">
+                                        <label for="rekrutmen_event_id" class="form-label">Event Rekrutmen</label>
+                                        <select class="form-control @error('rekrutmen_event_id') is-invalid @enderror" id="rekrutmen_event_id" name="rekrutmen_event_id" required>
+                                            <option value="">-- Pilih Event Rekrutmen --</option>
+                                            @foreach ($rekrutmenEvents as $event)
+                                                <option value="{{ $event->id }}" {{ old('rekrutmen_event_id') == $event->id ? 'selected' : '' }}>
+                                                    {{ $event->nama_rekrutmen }} ({{ \Carbon\Carbon::parse($event->tanggal_rekrutmen)->format('Y') }})
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('rekrutmen_event_id') <div class="text-danger mt-1">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    {{-- Kolom Biodata lainnya (Tempat Lahir, Tanggal Lahir, dll.) --}}
                                     <div class="row">
                                         <div class="col-md-6 col-sm-6">
                                             <div class="form-group mb-3">
@@ -455,7 +375,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-1 d-flex align-items-center">
-                                                <button type="button" class="btn btn-danger btn-sm remove-profiling-media" style="display: none;">
+                                                <button type="button" class="btn btn-danger btn-sm remove-profiling-media">
                                                     <i class="ti ti-minus"></i>
                                                 </button>
                                             </div>
@@ -562,28 +482,14 @@
             const progressSteps = document.querySelectorAll('.progress-step');
             let currentStep = 0;
 
-            // Ambil elemen dropdown dan display nama Casis
-            const casisIdDropdown = document.getElementById('casis_id_dropdown');
-            const namaLengkapDisplay = document.getElementById('nama_lengkap');
+            // Hapus semua referensi casisIdDropdown dan namaLengkapDisplay karena tidak digunakan lagi
+            // const casisIdDropdown = document.getElementById('casis_id_dropdown');
+            // const namaLengkapDisplay = document.getElementById('nama_lengkap');
 
-            // Fungsi untuk memperbarui nama Casis di tampilan Step 1
-            function updateCasisDisplayName() {
-                if (casisIdDropdown) {
-                    const selectedOption = casisIdDropdown.options[casisIdDropdown.selectedIndex];
-                    if (selectedOption && selectedOption.value) {
-                        namaLengkapDisplay.value = selectedOption.text.split('(')[0].trim();
-                    } else {
-                        namaLengkapDisplay.value = '';
-                    }
-                }
-            }
+            // Hapus fungsi updateCasisDisplayName() karena tidak relevan lagi
+            // function updateCasisDisplayName() { ... }
+            // Hapus if (casisIdDropdown) { ... }
 
-            // Tambahkan event listener jika dropdown ada
-            if (casisIdDropdown) {
-                casisIdDropdown.addEventListener('change', updateCasisDisplayName);
-                // Panggil sekali saat DOMContentLoaded untuk menginisialisasi nilai jika form dimuat dengan old value
-                updateCasisDisplayName();
-            }
 
             function showStep(stepIndex) {
                 formSteps.forEach((step, index) => {
@@ -616,25 +522,12 @@
                 const inputs = currentFormStep.querySelectorAll('[required]');
                 let isValid = true;
 
-                // Validasi dropdown Casis jika ada dan diperlukan di Step 1
-                if (stepIndex === 0 && casisIdDropdown && casisIdDropdown.hasAttribute('required')) {
-                    if (!casisIdDropdown.value) {
-                        isValid = false;
-                        casisIdDropdown.classList.add('is-invalid');
-                    } else {
-                        casisIdDropdown.classList.remove('is-invalid');
-                    }
-                }
+                // Hapus validasi dropdown Casis (karena dropdownnya tidak ada)
+                // if (stepIndex === 0 && casisIdDropdown && casisIdDropdown.hasAttribute('required')) { ... }
 
                 inputs.forEach(input => {
                     if (input.type === 'file') {
-                        // Untuk input file, ini bisa jadi tricky saat edit.
-                        // Untuk mode create, pastikan file dipilih jika required.
-                        // Jika dalam mode edit, bisa jadi file lama sudah ada.
-                        // Untuk kesederhanaan, hanya cek jika ada file baru di-upload.
-                        if (!input.files.length) { // Jika tidak ada file yang dipilih
-                            // Asumsi bahwa jika input file required, harus ada file baru
-                            // Jika ini form edit dan ada file lama, logikanya akan lebih kompleks
+                        if (input.files.length === 0) {
                             isValid = false;
                             input.classList.add('is-invalid');
                         } else {
@@ -672,7 +565,11 @@
                 const reviewDiv = document.getElementById('review-data');
                 let html = '<h6>Ringkasan Data:</h6>';
                 const fieldsToReview = [
+                    // Langsung refer ke ID input yang baru
+                    { id: 'nomor_pendaftaran', label: 'Nomor Pendaftaran', step: 1 },
                     { id: 'nama_lengkap', label: 'Nama Lengkap Casis', step: 1 },
+                    { id: 'asal_sekolah', label: 'Asal Sekolah', step: 1 },
+                    { id: 'rekrutmen_event_id', label: 'Event Rekrutmen', step: 1 },
                     { id: 'tempat_lahir', label: 'Tempat Lahir', step: 1 },
                     { id: 'tanggal_lahir', label: 'Tanggal Lahir', step: 1 },
                     { id: 'prodi', label: 'Prodi', step: 1 },
@@ -681,7 +578,7 @@
                     { id: 'nomor_tk_pusat', label: 'Nomor TK. Pusat', step: 1 },
                     { id: 'agama', label: 'Agama', step: 1 },
                     { id: 'jenis_kelamin', label: 'Jenis Kelamin', step: 1 },
-                    { id: 'status_perkawinan_biodata', label: 'Status Perkawinan', step: 1 }, // ID dari select
+                    { id: 'status_perkawinan_biodata', label: 'Status Perkawinan', step: 1 },
                     { id: 'alamat_ktp', label: 'Alamat Sesuai KTP', step: 1 },
                     { id: 'nomor_hp', label: 'Nomor HP', step: 1 },
                     { id: 'merk_hp', label: 'Merk/Seri HP', step: 1 },
