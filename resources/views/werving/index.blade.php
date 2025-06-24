@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Werving | Sisfo Werving Satsiber TNI</title>
     <meta charset="utf-8">
@@ -24,7 +25,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}">
 
 </head>
+
 <body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
+
     <div class="loader-bg">
         <div class="loader-track">
             <div class="loader-fill"></div>
@@ -82,16 +85,16 @@
 
                     {{-- Contoh: Menu khusus Superadmin --}}
                     @if (Auth::check() && Auth::user()->role === 'superadmin')
-                    <li class="pc-item pc-caption">
-                        <label>Pengaturan Superadmin</label>
-                        <i class="ti ti-settings"></i>
-                    </li>
-                    <li class="pc-item">
-                        <a href="{{ route('superadmin.settings') }}" class="pc-link">
-                            <span class="pc-micon"><i class="ti ti-crown"></i></span>
-                            <span class="pc-mtext">Pengaturan Sistem</span>
-                        </a>
-                    </li>
+                        <li class="pc-item pc-caption">
+                            <label>Pengaturan Superadmin</label>
+                            <i class="ti ti-settings"></i>
+                        </li>
+                        <li class="pc-item">
+                            <a href="{{ route('superadmin.settings') }}" class="pc-link">
+                                <span class="pc-micon"><i class="ti ti-crown"></i></span>
+                                <span class="pc-mtext">Pengaturan Sistem</span>
+                            </a>
+                        </li>
                     @endif
 
                 </ul>
@@ -113,8 +116,8 @@
                         </a>
                     </li>
                     <li class="dropdown pc-h-item d-inline-flex d-md-none">
-                        <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#"
-                            role="button" aria-haspopup="false" aria-expanded="false">
+                        <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown"
+                            href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         </a>
                     </li>
                 </ul>
@@ -122,14 +125,16 @@
             <div class="ms-auto">
                 <ul class="list-unstyled">
                     <li class="dropdown pc-h-item">
-                        <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
-                            role="button" aria-haspopup="false" aria-expanded="false">
+                        <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
+                            href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         </a>
                     </li>
                     <li class="dropdown pc-h-item header-user-profile">
-                        <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
-                            role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-                            <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image" class="user-avtar">
+                        <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
+                            href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside"
+                            aria-expanded="false">
+                            <img src="{{ asset('assets/images/user/avatar-2.jpg') }}" alt="user-image"
+                                class="user-avtar">
                             <span>{{ Auth::user()->name }}</span>
                         </a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
@@ -185,157 +190,331 @@
         </div>
     </header>
     <div class="pc-container">
-        <div class="pc-content">
-            <div class="page-header">
-                <div class="page-block">
-                    <div class="row align-items-center">
-                        <div class="col-md-12">
-                            <div class="page-header-title">
-                                <h5 class="m-b-10">Werving</h5>
-                            </div>
+
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title d-flex align-items-center justify-content-between">
+                            <h5 class="m-b-10">Daftar Personel</h5>
+                            <button class="btn btn-primary btn-sm" id="togglePendaftaran" class="togglePendaftaran"
+                                onclick="togglePersonel()">
+                                {{-- Tombol untuk toggle form pendaftaran --}}
+                                {{-- LINK KE FORM TAMBAH EVENT REKRUTMEN --}}
+                                + tambah Personel
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                {{-- Card "Taruna Akmil" ini masih statis. Jika Anda ingin ini dinamis berdasarkan event rekrutmen,
-                    kita perlu pass data event dari WervingController dan loop di sini.
-                    Untuk saat ini biarkan statis jika Anda tidak ingin dinamis. --}}
-                <div class="col-md-6 col-xl-4">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Taruna Akmil</h4>
+        </div>
+
+        <div class="container mt-4">
+            <h4 class="mb-3">📋 Daftar Pendaftar</h4>
+
+            <input type="text" id="searchInput" class="form-control mb-3" placeholder="Cari Nama Pendaftar...">
+
+            <div class="table-responsive" id="tablePersonel">
+                <table class="table table-striped table-hover table-bordered">
+                    <thead class="table-dark text-center">
+                        <tr>
+                            <th onclick="sortTable(0)">No ⬍</th>
+                            <th onclick="sortTable(1)">Nama ⬍</th>
+                            <th onclick="sortTable(2)">Email ⬍</th>
+                            <th onclick="sortTable(3)">No HP ⬍</th>
+                            <th onclick="sortTable(4)">TTL ⬍</th>
+                            <th onclick="sortTable(5)">Agama ⬍</th>
+                            <th onclick="sortTable(6)">Jenis Kelamin ⬍</th>
+                            <th onclick="sortTable(7)">Alamat KTP ⬍</th>
+                            <th onclick="sortTable(8)">Prodi ⬍</th>
+                            <th onclick="sortTable(9)">Asal Panda ⬍</th>
+                            <th onclick="sortTable(10)">No TK Panda ⬍</th>
+                            <th onclick="sortTable(11)">No TK Pusat ⬍</th>
+                            <th onclick="sortTable(12)">IMEI ⬍</th>
+                            <th onclick="sortTable(13)">Merk HP ⬍</th>
+                            <th onclick="sortTable(14)">Status ⬍</th>
+                            <th onclick="sortTable(15)">Tgl Daftar ⬍</th>
+                        </tr>
+                    </thead>
+                    <tbody id="personel">
+                        @php
+                            // dd($personel);
+                        @endphp
+                        @isset($personel)
+
+                            @foreach ($personel as $item)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->nomor_hp }}</td>
+                                    <td>{{ $item->tempat_lahir ?? '-' }},
+                                        {{ \Carbon\Carbon::parse($item->ttl)->format('d M Y') }}</td>
+                                    <td>{{ $item->agama }}</td>
+                                    <td>{{ $item->jenis_kelamin }}</td>
+                                    <td>{{ $item->alamat_ktp }}</td>
+                                    <td>{{ $item->prodi }}</td>
+                                    <td>{{ $item->asal_panda }}</td>
+                                    <td>{{ $item->nomor_tk_panda }}</td>
+                                    <td>{{ $item->nomor_tk_pusat }}</td>
+                                    <td>{{ $item->nomor_imei }}</td>
+                                    <td>{{ $item->merk_hp }}</td>
+                                    <td>{{ $item->status }}</td>
+                                    <td>{{ $item->created_at->format('d-m-Y H:i') }}</td>
+                                </tr>
+                            @endforeach
+                        @endisset
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        Livewire.on('pendaftarSaved', function() {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Data Berhasil Disimpan!',
+                                text: 'Data pendaftar sudah masuk ke database.',
+                                showConfirmButton: false,
+                                timer: 2000 // Notifikasi otomatis hilang setelah 2 detik
+                            });
+                        });
+                    });
+                </script>
+
+
+                {{-- Form ini akan muncul ketika tombol "Tambah Personel" ditekan --}}
+                <form id="formPendaftaran" class="hidden" action="{{ route('personel.create') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <!-- Nama Lengkap -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" name="nama">
+                            @error('nama')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="card-body">
-                            {{-- Link ini perlu disesuaikan dengan rute laporan perorangan/rekapitulasi --}}
-                            <a href="#" class="btn w-100 btn-sm btn-warning mb-2">Laporan Perorangan</a>
-                            <a href="#" class="btn w-100 btn-sm btn-primary">Laporan Rekapitulasi</a>
+
+                        <!-- Jenis Kelamin -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Jenis Kelamin</label>
+                            <select class="form-control" name="jenis_kelamin">
+                                <option value="">Pilih</option>
+                                <option value="Laki-laki">Laki-laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                            @error('jenis_kelamin')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        <div class="card-footer">
-                            <p>
-                                <i class="ti ti-calendar-time"></i> 22 Juni 2024 <br>
-                                <i class="ti ti-location"></i> Magelang, Jawa Tengah
-                            </p>
+
+                        <!-- Agama -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Agama</label>
+                            <select class="form-control" name="agama">
+                                <option value="">Pilih</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Kristen">Kristen</option>
+                                <option value="Hindu">Hindu</option>
+                                <option value="Buddha">Buddha</option>
+                                <option value="Konghucu">Konghucu</option>
+                            </select>
+
+                            @error('agama')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- TTL -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tanggal Lahir</label>
+                            <input type="date" class="form-control" name="ttl">
+                            @error('ttl')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Tempat Lahir -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Tempat Lahir</label>
+                            <input type="text" class="form-control" name="tempat_lahir">
+                            @error('tempat_lahir')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Alamat KTP -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Alamat KTP</label>
+                            <textarea class="form-control" name="alamat_ktp"></textarea>
+                            @error('alamat_ktp')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Nomor HP -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nomor HP</label>
+                            <input type="text" class="form-control" name="nomor_hp">
+                            @error('nomor_hp')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email">
+                            @error('email')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Prodi -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Program Studi</label>
+                            <input type="text" class="form-control" name="prodi">
+                            @error('prodi')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Asal Panda -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Asal Panda</label>
+                            <input type="text" class="form-control" name="asal_panda">
+                            @error('asal_panda')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Nomor TK Panda -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nomor TK Panda</label>
+                            <input type="text" class="form-control" name="nomor_tk_panda">
+                            @error('nomor_tk_panda')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Nomor TK Pusat -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nomor TK Pusat</label>
+                            <input type="text" class="form-control" name="nomor_tk_pusat">
+                            @error('nomor_tk_pusat')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Nomor IMEI -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nomor IMEI</label>
+                            <input type="text" class="form-control" name="nomor_imei">
+                            @error('nomor_imei')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Merk HP -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Merk HP</label>
+                            <input type="text" class="form-control" name="merk_hp">
+                            @error('merk_hp')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Status -->
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Status</label>
+                            <input type="text" class="form-control" name="status">
+                            @error('status')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
-                </div>
-                <div class="col-md-12 col-xl-12">
-                    <h5 class="mb-3">Laporan Perorangan</h5>
-                    <div class="card">
-                        <div class="card-body">
-                            {{-- Pesan Sukses atau Error --}}
-                            @if (session('success'))
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ session('success') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            @endif
-                            @if (session('error'))
-                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    {{ session('error') }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            @endif
-
-                            {{-- START REVISI: Tambahkan div dengan class table-responsive di sini --}}
-                            <div class="table-responsive">
-                                <div class="dt-responsive">
-                                    <div id="dom-jqry_wrapper" class="dataTables_wrapper dt-bootstrap5">
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_length" id="dom-jqry_length">
-                                                    <label>Show
-                                                        <select name="dom-jqry_length" aria-controls="dom-jqry"
-                                                            class="form-select form-select-sm">
-                                                            <option value="10">10</option>
-                                                            <option value="25">25</option>
-                                                            <option value="50">50</option>
-                                                            <option value="100">100</option>
-                                                        </select>
-                                                        entries
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div id="dom-jqry_filter"
-                                                    class="dataTables_filter d-flex align-items-center justify-content-end gap-2">
-                                                    <label class="mb-0 me-2" for="searchInput">Search:</label>
-                                                    <input id="searchInput" type="search"
-                                                        class="form-control form-control-sm" placeholder=""
-                                                        aria-controls="dom-jqry">
-                                                    {{-- Tombol Tambah Laporan (GLOBAL) --}}
-                                                    <a href="{{ route('werving.create_laporan') }}" class="btn btn-sm btn-primary">
-                                                        + tambah laporan
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row dt-row">
-                                            <div class="col-sm-12">
-                                                <table id="dom-jqry"
-                                                    class="table table-striped table-bordered nowrap dataTable"
-                                                    aria-describedby="dom-jqry_info">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="sorting sorting_asc" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending">No</th>
-                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Nama Casis</th>
-                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">No. Pendaftaran</th>
-                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Asal Sekolah</th>
-                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Event Rekrutmen</th>
-                                                            <th class="sorting" tabindex="0" rowspan="1" colspan="1">Aksi</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {{-- Loop data laporan perorangan di sini --}}
-                                                        @forelse ($laporanPerorangans as $laporan)
-                                                            <tr class="odd">
-                                                                <td class="sorting_1">{{ $loop->iteration }}</td>
-                                                                <td>{{ $laporan->nama_lengkap }}</td>
-                                                                <td>{{ $laporan->nomor_pendaftaran }}</td>
-                                                                <td>{{ $laporan->asal_sekolah }}</td>
-                                                                <td>{{ $laporan->rekrutmenEvent->nama_rekrutmen ?? 'N/A' }}</td>
-                                                                <td>
-                                                                    {{-- Link Detail Laporan Perorangan (jika ada) --}}
-                                                                    <a href="#" class="btn btn-info btn-sm">detail</a>
-                                                                    {{-- Tombol Edit Laporan Perorangan --}}
-                                                                    <a href="#" class="btn btn-warning btn-sm">Edit Laporan</a>
-                                                                    {{-- Tombol Hapus Laporan Perorangan --}}
-                                                                    <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus laporan ini?')">
-                                                                        @csrf
-                                                                        @method('DELETE')
-                                                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                                                    </form>
-                                                                </td>
-                                                            </tr>
-                                                        @empty
-                                                            <tr>
-                                                                <td colspan="6" class="text-center">Tidak ada data laporan perorangan.</td>
-                                                            </tr>
-                                                        @endforelse
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-5">
-                                                <div class="dataTables_info" id="dom-jqry_info" role="status"
-                                                    aria-live="polite">Showing {{ $laporanPerorangans->firstItem() ?? 0 }} to {{ $laporanPerorangans->lastItem() ?? 0 }} of {{ $laporanPerorangans->total() ?? 0 }} entries</div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-7">
-                                                <div class="dataTables_paginate paging_simple_numbers"
-                                                    id="dom-jqry_paginate">
-                                                    {{ $laporanPerorangans->links('pagination::bootstrap-5') }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div>
+                        <label>Upload Gambar/Video</label>
+                        <div class="mb-2 d-flex align-items-start gap-2" id="file-inputs">
+                            <div class="file-input">
+                                <input type="file" name="media_files[]" class="form-control"
+                                    accept="image/*,video/*">
                             </div>
                             {{-- END REVISI --}}
                         </div>
+
+                        <!-- Tombol untuk menambah input file -->
+                        <button type="button" id="add-file" class="btn btn-primary btn-sm form-label">Tambah
+                            File</button>
                     </div>
-                </div>
+
+
+                    <button type="submit" class="btn btn-success">Simpan</button>
+                </form>
             </div>
+
+            <script>
+                const formPendaftaran = document.getElementById('formPendaftaran');
+                const tablePersonel = document.getElementById('tablePersonel');
+                const buttonPendaftaran = document.getElementById('togglePendaftaran');
+
+                function togglePersonel() {
+                    const isHidden = formPendaftaran.classList.contains('hidden');
+                    if (isHidden) {
+                        formPendaftaran.classList.remove('hidden');
+                        tablePersonel.classList.add('hidden');
+                    } else {
+                        formPendaftaran.classList.add('hidden');
+                        tablePersonel.classList.remove('hidden');
+                    };
+                }
+            </script>
+
+            <script>
+                // Tangkap tombol tambah input file
+                document.getElementById('add-file').addEventListener('click', function() {
+                    // Ambil container yang berisi input file
+                    var container = document.getElementById('file-inputs');
+
+                    // Buat elemen div baru untuk membungkus input file
+                    var div = document.createElement('div');
+                    div.className = "file-input";
+                    div.classList.add('mb-2', 'd-flex', 'align-items-start', 'gap-2');
+
+                    // Buat label dan input file baru
+                    // var label = document.createElement('label');
+                    // label.innerText = "Pilih Gambar/Video:";
+                    var input = document.createElement('input');
+                    input.className = "form-control";
+                    input.type = "file";
+                    input.name = "media_files[]";
+                    input.accept = "image/*,video/*";
+
+                    // Buat tombol hapus untuk input file
+                    var removeButton = document.createElement('button');
+                    removeButton.type = "button";
+                    removeButton.innerText = "Hapus";
+                    removeButton.className = "remove-file";
+                    removeButton.classList.add('btn', 'btn-warning', 'btn-sm');
+                    // Tambahkan event listener: saat tombol diklik, hapus div induknya
+                    removeButton.addEventListener('click', function() {
+                        this.parentElement.remove();
+                    });
+
+                    // Tambahkan label ke dalam div
+                    div.appendChild(input);
+                    div.appendChild(removeButton);
+
+                    // Tambahkan div baru ke container
+                    container.appendChild(div);
+                });
+            </script>
+
+
         </div>
     </div>
     <footer class="pc-footer">
@@ -361,11 +540,50 @@
     <script src="{{ asset('assets/js/pcoded.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
 
-    <script>layout_change('light');</script>
-    <script>change_box_container('false');</script>
-    <script>layout_rtl_change('false');</script>
-    <script>preset_change("preset-1");</script>
-    <script>font_change("Public-Sans");</script>
+    <script>
+        layout_change('light');
+    </script>
+    <script>
+        change_box_container('false');
+    </script>
+    <script>
+        layout_rtl_change('false');
+    </script>
+    <script>
+        preset_change("preset-1");
+    </script>
+    <script>
+        font_change("Public-Sans");
+    </script>
 
+    <script>
+        // Pencarian Nama Pendaftar
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            let filter = this.value.toLowerCase();
+            let rows = document.querySelectorAll("#personel tr");
+
+            rows.forEach(row => {
+                let name = row.cells[1].textContent.toLowerCase();
+                row.style.display = name.includes(filter) ? "" : "none";
+            });
+        });
+
+        // Pengurutan Kolom
+        function sortTable(colIndex) {
+            let table = document.getElementById("#personel");
+            let rows = Array.from(table.rows);
+            let sortedRows = rows.sort((a, b) =>
+                a.cells[colIndex].textContent.localeCompare(b.cells[colIndex].textContent)
+            );
+            table.innerHTML = "";
+            sortedRows.forEach(row => table.appendChild(row));
+        }
+    </script>
+    <style>
+        .hidden {
+            display: none
+        }
+    </style>
 </body>
+
 </html>
